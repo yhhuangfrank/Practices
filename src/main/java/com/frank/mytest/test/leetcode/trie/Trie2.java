@@ -1,7 +1,5 @@
 package com.frank.mytest.test.leetcode.trie;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 使用 array 構建
