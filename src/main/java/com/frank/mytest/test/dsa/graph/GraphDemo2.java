@@ -44,8 +44,8 @@ public class GraphDemo2 {
     }
 
     private static class Graph {
-        private int numOfNodes;
-        private Set<Node> nodeSet = new HashSet<>();
+        private final int numOfNodes;
+        private final Set<Node> nodeSet = new HashSet<>();
 
         public Graph(int numOfNodes) {
             this.numOfNodes =  numOfNodes;
@@ -78,12 +78,12 @@ public class GraphDemo2 {
 
         // 廣度優先
         public void bfs(Node node) {
-            Queue<Node> queue = new LinkedList<>();
+            Deque<Node> queue = new ArrayDeque<>();
             queue.add(node);
             node.isVisited = true;
             Node temp;
             while (!queue.isEmpty()) {
-                temp = queue.poll();
+                temp = queue.removeFirst();
                 System.out.println(temp);
                 for (Node neighbor : temp.neighbors) {
                     if (!neighbor.isVisited) {

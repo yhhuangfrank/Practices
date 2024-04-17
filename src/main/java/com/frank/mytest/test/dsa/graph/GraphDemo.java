@@ -6,7 +6,7 @@ public class GraphDemo {
 
     private List<String> vertexList; // 儲存頂點集合
     private int[][] edges; // 儲存對應的連接矩陣
-    private int numOfEdges; // 標的數目
+    private int numOfEdges; // edge 的數目
     private boolean[] isVisited; // 紀錄某個頂點是否被訪問過
 
     public GraphDemo(int n) {

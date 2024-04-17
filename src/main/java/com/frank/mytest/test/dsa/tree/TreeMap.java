@@ -23,10 +23,7 @@ class TreeMap {
     }
 
     public void insert(int key, int val) {
-        TreeNode node = insert(this.root, key, val);
-        if (this.root == null) {
-            this.root = node;
-        }
+        this.root = insert(this.root, key, val);
     }
 
     private TreeNode insert(TreeNode root, int key, int val) {
