@@ -1,6 +1,11 @@
 package com.frank.mytest.test.dsa.tree;
 
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+
 public class BSTDemo {
     public static void main(String[] args) {
         BST bst = new BST(5);
@@ -10,10 +15,26 @@ public class BSTDemo {
         bst.insertNode(6);
         bst.insertNode(2);
         bst.insertNode(3);
-        bst.inOrder();
-        System.out.println("===========================");
+//        bst.inOrderRecursively();
+        System.out.print("preOrder: ");
+        bst.preOrderIteratively();
+        System.out.println();
+        System.out.print("inOrder: ");
+        bst.inOrderIteratively();
+        System.out.print("postOrder: ");
+        bst.postOrderIterativelyV2();
+
         bst.deleteNode(8);
-        bst.inOrder();
+
+        System.out.println("===========================");
+//        bst.inOrderRecursively();
+        System.out.print("preOrder: ");
+        bst.preOrderIteratively();
+        System.out.println();
+        System.out.print("inOrder: ");
+        bst.inOrderIteratively();
+        System.out.print("postOrder: ");
+        bst.postOrderIterativelyV2();
     }
 }
 
@@ -22,6 +43,10 @@ class BST {
 
     public BST(int val) {
         this.root = new TreeNode(val);
+    }
+
+    public void insertNode(int val) {
+        this.root = insertNode(root, val);
     }
 
     private TreeNode insertNode(TreeNode root, int val) {
@@ -36,8 +61,8 @@ class BST {
         return root;
     }
 
-    public TreeNode insertNode(int val) {
-        return insertNode(root, val);
+    public TreeNode deleteNode(int val) {
+        return deleteNode(root, val);
     }
 
     private TreeNode deleteNode(TreeNode root, int val) {
@@ -62,40 +87,133 @@ class BST {
         return root;
     }
 
-    public TreeNode deleteNode(int val) {
-        return deleteNode(root, val);
+    public void preOrderRecursively() {
+        preOrderRecursionHelper(root);
     }
 
-    private void preOrder(TreeNode node) {
+    private void preOrderRecursionHelper(TreeNode node) {
         if (node == null) return;
 
         System.out.println(node.val);
         if (node.left != null) {
-            preOrder(node.left);
+            preOrderRecursionHelper(node.left);
         }
         if (node.right != null) {
-            preOrder(node.right);
+            preOrderRecursionHelper(node.right);
         }
     }
 
-    public void preOrder() {
-        preOrder(root);
+    // Time & Space O(n)
+    public void preOrderIteratively() {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode curr = this.root;
+        while (curr != null || !stack.isEmpty()) {
+            if (curr != null) {
+                System.out.print(curr.val + " -> ");
+                stack.addFirst(curr);
+                curr = curr.left;
+            } else {
+                TreeNode node = stack.removeFirst();
+                curr = node.right;
+            }
+        }
     }
 
-    private void inOrder(TreeNode node) {
+    public void inOrderRecursively() {
+        inOrderRecursionHelper(this.root);
+    }
+
+    private void inOrderRecursionHelper(TreeNode node) {
         if (node == null) return;
 
         if (node.left != null) {
-            inOrder(node.left);
+            inOrderRecursionHelper(node.left);
         }
         System.out.println(node.val);
         if (node.right != null) {
-            inOrder(node.right);
+            inOrderRecursionHelper(node.right);
         }
     }
 
-    public void inOrder() {
-        inOrder(root);
+    public void inOrderIteratively() {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode curr = this.root;
+
+        while (curr != null || !stack.isEmpty()) {
+            if (curr != null) {
+                stack.addFirst(curr);
+                curr = curr.left;
+            } else {
+                TreeNode node = stack.removeFirst();
+                System.out.println(node.val);
+                curr = node.right;
+            }
+        }
+    }
+
+    public void postOrderRecursively() {
+        postOrderRecursionHelper(this.root);
+    }
+
+    private void postOrderRecursionHelper(TreeNode node) {
+        if (node == null) return;
+
+        if (node.left != null) {
+            postOrderRecursionHelper(node.left);
+        }
+        if (node.right != null) {
+            postOrderRecursionHelper(node.right);
+        }
+        System.out.println(node.val);
+    }
+
+    // 使用兩個 stack
+    public void postOrderIterativelyV1() {
+        if (this.root == null)
+            return;
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        Deque<Boolean> visit = new ArrayDeque<>();
+        stack.addFirst(this.root);
+        visit.addFirst(false);
+
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.removeFirst();
+            boolean isVisited = visit.removeFirst();
+            if (isVisited) {
+                System.out.print(node.val + " -> ");
+            } else {
+                stack.addFirst(node);
+                visit.addFirst(true);
+                if (node.right != null) {
+                    stack.addFirst(node.right);
+                    visit.addFirst(false);
+                }
+                if (node.left != null) {
+                    stack.addFirst(node.left);
+                    visit.addFirst(false);
+                }
+            }
+        }
+    }
+
+    public void postOrderIterativelyV2() {
+        if (this.root == null)
+            return;
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        LinkedList<Integer> list = new LinkedList<>();
+        stack.addFirst(this.root);
+
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.removeFirst();
+            list.addFirst(node.val);
+            if (node.left != null) {
+                stack.addFirst(node.left);
+            }
+            if (node.right != null) {
+                stack.addFirst(node.right);
+            }
+        }
+        System.out.println(list);
     }
 
     private TreeNode findMinNode(TreeNode node) {
@@ -106,7 +224,7 @@ class BST {
         return curr;
     }
 
-    private class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
