@@ -27,15 +27,42 @@ import java.util.*;
  */
 public class ThreeSum {
     public static void main(String[] args) {
-        int[] arr = new int[]{-2, -2, 0, -5, -1, -3, 0, 4, 3, 4, 1, 3, 0, -1, 0, 3};
-//        System.out.println(threeSumV2(arr));
-        System.out.println(threeSumV3(arr));
-//        int[] arr2 = new int[]{-2, -1, 0, 0, 1, 2, 2, 3, 4};
-//        System.out.println(twoSum(arr2, 2));
+        int[] arr = new int[]{-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0};
+        System.out.println(threeSum(arr));
+    }
+
+    // Two pointer 最佳解
+    public static List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+            int l = i;
+            int r = nums.length - 1;
+            int target = -nums[i];
+            while (l < r) { // two sum in sorted array
+                int sum = nums[l] + nums[r];
+                if (sum > target) {
+                    r--;
+                } else if (sum < target) {
+                    l++;
+                } else {
+                    List<Integer> list = new ArrayList<>(List.of(nums[i], nums[l], nums[r]));
+                    res.add(list);
+                    while (l < r && nums[l + 1] == nums[l]) { // 移動一邊的 pointer 確保不重複
+                        l++;
+                    }
+                    l++;
+                    r--;
+                }
+            }
+        }
+        return res;
     }
 
     // 暴力解
-    public static List<List<Integer>> threeSum(int[] nums) {
+    public static List<List<Integer>> threeSumV1(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         if (nums.length < 3) return res;
 

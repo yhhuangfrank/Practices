@@ -19,8 +19,8 @@ public class ProductOfArrayExceptSelf {
     public static void main(String[] args) {
         int[] nums1 = new int[]{-1, 1, 0, -3, 3};
         int[] nums2 = new int[]{1, 2, 3, 4};
-        System.out.println(Arrays.toString(productExceptSelf(nums1)));
-        System.out.println(Arrays.toString(productExceptSelf(nums2)));
+        System.out.println(Arrays.toString(productExceptSelfV2(nums1)));
+        System.out.println(Arrays.toString(productExceptSelfV2(nums2)));
     }
 
     /**
@@ -70,20 +70,20 @@ public class ProductOfArrayExceptSelf {
     public static int[] productExceptSelfV2(int[] nums) {
         int len = nums.length;
         int[] res = new int[len];
+        int l = 1; // 代表左部分乘積
         int r = 1; // 代表右部分乘積
         res[0] = 1;
 
         // 先算左部分乘積
-        for (int i = 1; i < len; i++) {
-            res[i] = res[i - 1] * nums[i - 1];
+        for (int i = 0; i < len; i++) {
+            res[i] = l;
+            l *= nums[i];
         }
-
         // 乘上右部分乘積
         for (int i = len - 1; i >= 0; i--) {
             res[i] = r * res[i];
             r *= nums[i];
         }
-
         return res;
     }
 }
