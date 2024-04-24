@@ -9,7 +9,9 @@ public class SearchInRotatedSortedArray {
     public static void main(String[] args) {
         int[] arr = new int[]{4, 5, 6, 7, 0, 1, 2};
         System.out.println(search(arr, 0));
+        System.out.println(searchV2(arr, 0));
         System.out.println(search(arr, 3));
+        System.out.println(searchV2(arr, 3));
     }
 
     public static int search(int[] nums, int target) {
@@ -58,6 +60,32 @@ public class SearchInRotatedSortedArray {
             }
         }
         // cannot find target
+        return -1;
+    }
+
+    // 解法二
+    public static int searchV2(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] == target)
+                return m;
+            // left portion
+            if (nums[m] >= nums[l]) {
+                if (target > nums[m] || target < nums[l]) {
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            } else { // right portion
+                if (target > nums[r] || target < nums[m]) {
+                    r = m - 1;
+                } else {
+                    l = m + 1;
+                }
+            }
+        }
         return -1;
     }
 }

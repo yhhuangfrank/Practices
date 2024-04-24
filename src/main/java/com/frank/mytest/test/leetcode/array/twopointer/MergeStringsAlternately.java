@@ -1,4 +1,4 @@
-package com.frank.mytest.test.leetcode.twopointer;
+package com.frank.mytest.test.leetcode.array.twopointer;
 
 /**
  * 將兩個 string (word1, word2)每個字母交互組成新的 string，並從 word1 開始合併

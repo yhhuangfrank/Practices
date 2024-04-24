@@ -1,4 +1,4 @@
-package com.frank.mytest.test.leetcode.twopointer;
+package com.frank.mytest.test.leetcode.array.twopointer;
 
 import java.util.Arrays;
 

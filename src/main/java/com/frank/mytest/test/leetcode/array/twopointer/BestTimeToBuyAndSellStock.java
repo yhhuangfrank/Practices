@@ -1,4 +1,4 @@
-package com.frank.mytest.test.leetcode.twopointer;
+package com.frank.mytest.test.leetcode.array.twopointer;
 
 public class BestTimeToBuyAndSellStock {
     public static void main(String[] args) {
