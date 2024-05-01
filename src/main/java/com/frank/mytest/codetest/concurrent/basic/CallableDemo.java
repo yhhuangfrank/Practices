@@ -9,6 +9,7 @@ public class CallableDemo {
 
         FutureTask<Integer> task = new FutureTask<>(() -> {
             System.out.println(Thread.currentThread().getName() + " 執行 callable 內方法，將返回結果");
+//            Thread.sleep(2000);
             return 200;
         });
 
@@ -21,6 +22,7 @@ public class CallableDemo {
                 System.out.println("等待 futureTask 執行完畢中...");
             }
             System.out.println("第一次獲取： " + task.get());
+            System.out.println(Thread.currentThread().getName() + " -> 目前 Thread");
             System.out.println("第二次獲取： " + task.get());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

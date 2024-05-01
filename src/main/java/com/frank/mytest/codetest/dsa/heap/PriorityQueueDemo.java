@@ -1,4 +1,4 @@
-package com.frank.mytest.codetest.dsa.priorityqueue;
+package com.frank.mytest.codetest.dsa.heap;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
