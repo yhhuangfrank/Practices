@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 /**
  * 使用兩個 heap 來尋找一個 stream 當中的中位數
  * small 內的數皆為 <= large 內的數
+ * 限制兩者大小差異在 1 以內
  */
 public class Median {
     private final PriorityQueue<Integer> small;
@@ -15,6 +16,7 @@ public class Median {
         this.large = new PriorityQueue<>(); // min heap
     }
 
+    // O(logN) time
     public void insert(int val) {
         // push 到 small 中
         this.small.add(-val);
@@ -31,6 +33,7 @@ public class Median {
         }
     }
 
+    // O(1) time
     public double getMedian() {
         // 奇數個
         if (this.small.size() > this.large.size()) {
