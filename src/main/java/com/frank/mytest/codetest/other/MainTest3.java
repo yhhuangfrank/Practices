@@ -3,7 +3,6 @@ package com.frank.mytest.codetest.other;
 import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MainTest3 {
