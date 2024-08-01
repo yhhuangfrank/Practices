@@ -26,7 +26,7 @@ public class CompleteFutureDemo2 {
 //        });
 //
 //        System.out.println("main 執行其他任務");
-//        // 若使用預設的 ForkJoinPool，當 main thread 結束時，ForkKoinPool 就被馬上關閉，因此會需要讓
+//        // 若使用預設的 ForkJoinPool，當 main thread 結束時，ForkJoinPool 就被馬上關閉，因此會需要讓
 //        // main thread 暫停才能得到 async 任務執行過程的輸出
 //        try {
 //            TimeUnit.SECONDS.sleep(3);
@@ -45,7 +45,7 @@ public class CompleteFutureDemo2 {
                     e.printStackTrace();
                 }
                 int a = 1 / 0;
-                return "complete task";
+                return Thread.currentThread().getName() + " complete task";
             }, threadPool).whenComplete((value, e) -> {
                 if (e == null) { // 沒有 exception 產生
                     System.out.println("任務成功！ 得到結果為： " + value);
