@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Api(tags = "使用 BloomFilter 過濾測試")
@@ -28,7 +29,7 @@ public class CustomerController {
             Customer customer = Customer.builder()
                     .name(String.valueOf(i))
                     .age(ThreadLocalRandom.current().nextInt(31))
-                    .createTime(LocalDateTime.now())
+                    .createTime(LocalDateTime.now(ZoneId.systemDefault()))
                     .phone("xxxx-xxx-xxx")
                     .build();
             customerService.addCustomer(customer);
@@ -40,5 +41,12 @@ public class CustomerController {
     public ResponseEntity<Customer> findCustomerById(@PathVariable("customerId") Integer customerId) {
         Customer customer = customerService.findCustomerById(customerId);
         return ResponseEntity.ok(customer);
+    }
+
+    @ApiOperation("透過 BloomFilter 查詢 customer")
+    @GetMapping("/bloomFilter/{customerId}")
+    public ResponseEntity<Customer> findCustomerByIdWithBloomFilter(@PathVariable("customerId") Integer customerId) {
+        Customer customer = customerService.findCustomerByIdWithBloomFilter(customerId);
+        return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.badRequest().body(null);
     }
 }
