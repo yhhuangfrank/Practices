@@ -53,7 +53,7 @@ public class CustomerService {
             // mysql 也沒有
             log.info("redis & mysql not found");
         }
-        System.out.println(customer);
+        log.info("customer is {}", customer);
         return customer;
     }
 

@@ -13,9 +13,9 @@ public class CheckUtils {
     private final RedisTemplate<String, Object> redisTemplate;
 
     public boolean checkWithBloomFilter(String checkItem, String key) {
-        int hashValue = Math.abs(key.hashCode());
-        long index = (long) (hashValue % Math.pow(2, 32));
-        boolean isExist = redisTemplate.opsForValue().getBit(checkItem, index);
+        int hashValue = key.hashCode();
+        long index = Math.abs((long) (hashValue % Math.pow(2, 32)));
+        boolean isExist = Boolean.TRUE.equals(redisTemplate.opsForValue().getBit(checkItem, index));
         log.info("key: {}, 對應 index: {} 是否存在 {}", key, index, isExist);
         return isExist;
     }

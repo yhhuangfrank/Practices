@@ -22,9 +22,9 @@ public class BloomFilterInit {
     @PostConstruct
     public void init() {
         String key = "customer:10"; // 設定此 key 在白名單中
-        int hashValue = Math.abs(key.hashCode());
+        int hashValue = key.hashCode();
         // 透過取餘數來獲取 bitmap (長度為 2^32 bit) 中對應 index
-        long idx = (long) (hashValue % Math.pow(2, 32));
+        long idx = Math.abs((long) (hashValue % Math.pow(2, 32)));
         log.info("{} 對應的 index: {}", key, idx);
         // 設置對應bitmap index 的該 bit 值為 1, 代表白名單
         redisTemplate.opsForValue().setBit("whitelistCustomer", idx, true);
