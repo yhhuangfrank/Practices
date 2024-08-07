@@ -4,6 +4,9 @@ import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.TimeoutUtils;
+
+import java.util.concurrent.TimeUnit;
 
 //@SpringBootTest
 class RedisStudyApplicationTests {
@@ -27,6 +30,12 @@ class RedisStudyApplicationTests {
 		bloomFilter.put(2);
 		System.out.println(bloomFilter.mightContain(1));
 		System.out.println(bloomFilter.mightContain(2));
+	}
+
+	@Test
+	void test1() {
+		long millis = TimeoutUtils.toMillis(86400L, TimeUnit.SECONDS);
+		System.out.println(millis);
 	}
 
 }
