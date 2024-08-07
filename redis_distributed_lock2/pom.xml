@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.frank</groupId>
-	<artifactId>redis_distributed_lock1</artifactId>
+	<artifactId>redis_distributed_lock2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>redis_distributed_lock1</name>
-	<description>redis_distributed_lock1</description>
+	<name>redis_distributed_lock2</name>
+	<description>redis_distributed_lock2</description>
 
 	<properties>
 		<java.version>17</java.version>
