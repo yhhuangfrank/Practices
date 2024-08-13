@@ -35,7 +35,7 @@ public class InventoryService {
             if (inventoryNum > 0) {
                 stringRedisTemplate.opsForValue().set(key, String.valueOf(--inventoryNum));
                 message = "成功賣出一個商品，庫存剩餘: " + inventoryNum;
-                System.out.println(message + "\t" + "服務port:" + port);
+                log.info("{} \t 服務 port: {}", message, port);
             } else {
                 message = "商品賣完了...";
             }
