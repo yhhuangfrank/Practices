@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -45,6 +46,12 @@ public class InventoryService {
             } else {
                 message = "商品賣完了...";
             }
+            // 透過強制停止 60s 來測試自動加時
+//            try {
+//                TimeUnit.SECONDS.sleep(60L);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
         } finally {
             redisLock.unlock();
         }

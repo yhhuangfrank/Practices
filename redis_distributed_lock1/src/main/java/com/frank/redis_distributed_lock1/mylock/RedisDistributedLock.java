@@ -19,7 +19,7 @@ public class RedisDistributedLock implements Lock {
 
     private StringRedisTemplate stringRedisTemplate;
 
-    private String lockName; // KEYS[1 ]
+    private String lockName; // KEYS[1]
     private String uuidValue; // ARGV[1]
     private long expireTime; // ARGV[2]
 
@@ -27,7 +27,7 @@ public class RedisDistributedLock implements Lock {
         this.stringRedisTemplate = stringRedisTemplate;
         this.lockName = lockName;
         this.uuidValue = uuid + ":" + Thread.currentThread().getId();
-        this.expireTime = 50L;
+        this.expireTime = 30L;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class RedisDistributedLock implements Lock {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                if (Boolean.TRUE.equals(stringRedisTemplate.execute(new DefaultRedisScript<>(script, Boolean.class), List.of(lockName), uuidValue, 30))) {
+                if (Boolean.TRUE.equals(stringRedisTemplate.execute(new DefaultRedisScript<>(script, Boolean.class), List.of(lockName), uuidValue, String.valueOf(expireTime)))) {
                     renewExpire();
                 }
             }
