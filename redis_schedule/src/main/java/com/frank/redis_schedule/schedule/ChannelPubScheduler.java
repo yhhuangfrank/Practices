@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
@@ -47,14 +48,14 @@ public class ChannelPubScheduler {
         }
     }
 
-    @Scheduled(cron = "*/2 * * * * *")
+    @Scheduled(cron = "* * * * * *")
     public void publish() {
-        int i;
-        if (idx.get() == 100) {
-            i = idx.getAndSet(0);
-        } else {
-            i = idx.getAndIncrement();
-        }
+//        int i;
+//        if (idx.get() == 100) {
+//            i = idx.getAndSet(0);
+//        } else {
+//            i = idx.getAndIncrement();
+//        }
         JsonObject json = new JsonObject();
         json.addProperty("agentId", "schedule_agent");
         json.addProperty("measurePoint", MEASURE_POINT);
@@ -62,10 +63,17 @@ public class ChannelPubScheduler {
         json.addProperty("siteId", SITE_ID);
         json.addProperty("deviceName", DEVICE_NAME);
         json.addProperty("deviceId", DEVICE_ID);
-        json.addProperty("value", numList.get(i));
-//        json.addProperty("value", 100);
+//        json.addProperty("value", numList.get(i));
+        json.addProperty("value", ThreadLocalRandom.current().nextInt(151));
         json.addProperty("ts", Instant.now().toEpochMilli());
         String channel = CHANNEL_PREFIX + DEVICE_ID;
+        stringRedisTemplate.convertAndSend(channel, json.toString());
+        log.info("success to publish to channel:{}, message is {}", channel, json);
+
+        json.remove("measurePoint");
+        json.remove("value");
+        json.addProperty("measurePoint", "P100");
+        json.addProperty("value", ThreadLocalRandom.current().nextInt(151));
         stringRedisTemplate.convertAndSend(channel, json.toString());
 
         log.info("success to publish to channel:{}, message is {}", channel, json);
