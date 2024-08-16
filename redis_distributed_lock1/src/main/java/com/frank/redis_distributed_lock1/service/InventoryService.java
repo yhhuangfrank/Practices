@@ -4,6 +4,8 @@ import com.frank.redis_distributed_lock1.mylock.DistributedLockFactory;
 import com.frank.redis_distributed_lock1.mylock.RedisDistributedLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,40 @@ public class InventoryService {
 
     private final DistributedLockFactory distributedLockFactory;
 
+    private final RedissonClient redisson;
+
     @Value("${server.port}")
     private String port;
+
+    /**
+     * v8 使用官網推薦的Redisson(基於 Java 實現的 RedLock)
+     */
+    public String saleByRedisson() {
+        String message = "";
+        RLock redissonLock = redisson.getLock("frankRedisLock");
+        redissonLock.lock();
+        try {
+            // 查詢庫存
+            String key = "inventory001";
+            String result = stringRedisTemplate.opsForValue().get(key);
+            // 判斷庫存是否足夠
+            int inventoryNum = result == null ? 0 : Integer.parseInt(result);
+            // 扣減庫存，每次減少一個
+            if (inventoryNum > 0) {
+                stringRedisTemplate.opsForValue().set(key, String.valueOf(--inventoryNum));
+                message = "成功賣出一個商品，庫存剩餘: " + inventoryNum;
+            } else {
+                message = "商品賣完了...";
+            }
+        } finally {
+            // 只能刪除自己 thread 的 key
+            if (redissonLock.isLocked() && redissonLock.isHeldByCurrentThread()) {
+                redissonLock.unlock();
+            }
+        }
+        log.info("{} \t 服務 port: {}", message, port);
+        return message + "\t" + "服務port:" + port;
+    }
 
     /**
      * v7 加上自動增加到期時間的腳本，讓規定時間內沒有完成的業務能夠完成

@@ -1,5 +1,8 @@
 package com.frank.redis_distributed_lock1.config;
 
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -26,6 +29,13 @@ public class RedisConfig {
 
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
+    }
+
+    @Bean
+    public RedissonClient redisson() {
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://localhost:6379").setDatabase(0);
+        return Redisson.create(config);
     }
 
 }

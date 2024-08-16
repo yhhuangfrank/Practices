@@ -23,4 +23,10 @@ public class InventoryController {
     public String sale() {
         return inventoryService.sale();
     }
+
+    @ApiOperation("每觸發一次少一個庫存")
+    @GetMapping("/saleByRedisson")
+    public String saleByRedisson() {
+        return inventoryService.saleByRedisson();
+    }
 }
