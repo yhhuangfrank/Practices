@@ -43,7 +43,7 @@ public class PublishScheduler {
      *             "ts": 1723617046026
      *         }
      */
-    @Scheduled(cron = "*/2 * * * * *")
+//    @Scheduled(cron = "*/2 * * * * *")
     public void publishMessage() {
         try {
             JsonObject jsonObject = new JsonObject();
