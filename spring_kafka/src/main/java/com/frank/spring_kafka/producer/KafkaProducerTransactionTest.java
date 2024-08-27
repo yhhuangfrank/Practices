@@ -1,12 +1,14 @@
 package com.frank.spring_kafka.producer;
 
-import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class KafkaProducerInterceptorTest {
+public class KafkaProducerTransactionTest {
 
     public static void main(String[] args) {
 
@@ -23,26 +25,25 @@ public class KafkaProducerInterceptorTest {
 //        configMap.put(ProducerConfig.RETRIES_CONFIG, 5);
 //        configMap.put(ProducerConfig.BATCH_SIZE_CONFIG, 5);
 //        configMap.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 3000);
+        // 在冪等性之上，加入 Transaction 配置
+        configMap.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "my-tx-id");
 
         // 創建生產者
         KafkaProducer<String, String> producer = new KafkaProducer<>(configMap);
+        try {
+            // 開啟交易
+            producer.beginTransaction();
 
-        // 創建數據
-        for (int i = 0; i < 10; i++) {
-            ProducerRecord<String, String> producerRecord = new ProducerRecord<>("test", "key" + i, "value" + i);
-            // producer.send(producerRecord);  // 發送數據
-            // 異步發送
-             producer.send(producerRecord, (recordMetadata, e) -> {
-                 if (e != null) {
-                     System.out.println("數據發送失敗");
-                     e.printStackTrace();
-                 } else {
-                     System.out.printf("Kafka Sender Thread 數據發送成功！！，數據: %s%n", recordMetadata);
-                 }
-             }); // 發送數據，可傳入一個 callback 用來確認是否發送成功
-            System.out.println("主程序發送給 Kafka RecordAccumulator 完成!");
+            // 創建數據
+            for (int i = 0; i < 10; i++) {
+                ProducerRecord<String, String> producerRecord = new ProducerRecord<>("test", "key" + i, "value" + i);
+                producer.send(producerRecord);  // 發送數據
+            }
+
+            producer.commitTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+            producer.abortTransaction(); // 終止交易
         }
-
-        producer.close();
     }
 }

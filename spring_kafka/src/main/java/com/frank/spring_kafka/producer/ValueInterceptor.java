@@ -6,7 +6,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 
 import java.util.Map;
 
-public class ValueInterCeptor  implements ProducerInterceptor<String, String> {
+public class ValueInterceptor implements ProducerInterceptor<String, String> {
 
     /**
      * 發送數據的時候調用此方法
@@ -15,7 +15,7 @@ public class ValueInterCeptor  implements ProducerInterceptor<String, String> {
      */
     @Override
     public ProducerRecord<String, String> onSend(ProducerRecord<String, String> producerRecord) {
-        return null;
+        return new ProducerRecord<>(producerRecord.topic(), producerRecord.key(), producerRecord.value() + producerRecord.value());
     }
 
     /**
