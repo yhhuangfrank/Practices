@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>jpa</module>
         <module>cloud-provider-payment8001</module>
     </modules>
 
@@ -48,12 +47,6 @@
                 <version>${lombok.version}</version>
                 <optional>true</optional>
             </dependency>
-            <!--MySQL-->
-<!--            <dependency>-->
-<!--                <groupId>mysql</groupId>-->
-<!--                <artifactId>mysql-connector-java</artifactId>-->
-<!--                <version>${mysql.version}</version>-->
-<!--            </dependency>-->
             <dependency>
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>

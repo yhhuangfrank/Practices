@@ -2,10 +2,13 @@ package org.frank.cloud.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.frank.cloud.dto.PayDTO;
 import org.frank.cloud.entity.Pay;
+import org.frank.cloud.response.ResultData;
 import org.frank.cloud.service.PayService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
@@ -25,36 +28,37 @@ public class PayController {
 
     @PostMapping("/add")
     @Operation(summary = "新增", description = "新增支付流水紀錄方法")
-    public String addPay(@RequestBody Pay pay) {
+    public ResultData<Pay> addPay(@RequestBody Pay pay) {
         log.info("request Object: {}", pay);
-        payService.add(pay);
-        return "add success!";
+        return ResultData.success(payService.save(pay));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "刪除", description = "刪除支付流水紀錄方法")
-    public String delPay(@PathVariable("id") Integer id) {
+    public ResultData<String> delPay(@PathVariable("id") Integer id) {
         payService.delete(id);
-        return "delete success!";
+        return ResultData.success("delete success!");
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改", description = "修改支付流水紀錄方法")
-    public String updatePay(@RequestBody PayDTO payDTO) {
+    public ResultData<Pay> updatePay(@RequestBody PayDTO payDTO) {
         Pay pay = mapper.map(payDTO, Pay.class);
-        payService.update(pay);
-        return "update success!";
+        return ResultData.success(payService.save(pay));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "查詢", description = "查詢單一支付流水紀錄方法")
-    public Pay findById(@PathVariable("id") Integer id) {
-        return payService.getById(id);
+    public ResultData<Pay> findById(@PathVariable("id") Integer id) {
+        if (id <= 0) {
+            throw new RuntimeException("id cannot less than 0");
+        }
+        return ResultData.success(payService.getById(id));
     }
 
     @GetMapping
     @Operation(summary = "查詢", description = "查詢所有支付流水紀錄方法")
-    public List<Pay> findAll() {
-        return payService.getAll();
+    public ResultData<List<Pay>> findAll() {
+        return ResultData.success(payService.getAll());
     }
 }
