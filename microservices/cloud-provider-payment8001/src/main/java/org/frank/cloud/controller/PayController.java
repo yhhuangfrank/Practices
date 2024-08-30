@@ -43,7 +43,9 @@ public class PayController {
     @PutMapping("/update")
     @Operation(summary = "修改", description = "修改支付流水紀錄方法")
     public ResultData<Pay> updatePay(@RequestBody PayDTO payDTO) {
+        System.out.println(payDTO);
         Pay pay = mapper.map(payDTO, Pay.class);
+        System.out.println(pay);
         return ResultData.success(payService.save(pay));
     }
 

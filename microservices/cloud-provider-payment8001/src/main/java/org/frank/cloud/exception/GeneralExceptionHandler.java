@@ -15,7 +15,7 @@ public class GeneralExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultData<String> onException(Exception e) {
-        log.error("unexpected exception: {}", e.getMessage(), e);
+        log.error("unexpected exception happened : {}", e.getMessage(), e);
         return ResultData.fail(ReturnCodeEnum.RC500.getCode(), e.getMessage());
     }
 
