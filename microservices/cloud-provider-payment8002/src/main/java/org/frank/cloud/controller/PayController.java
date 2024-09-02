@@ -2,8 +2,6 @@ package org.frank.cloud.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.frank.cloud.dto.PayDTO;
@@ -73,4 +71,5 @@ public class PayController {
     public String getInfoOfConsul(@Value("${frank.info}") String info) {
         return info + ", port: " + port;
     }
+
 }

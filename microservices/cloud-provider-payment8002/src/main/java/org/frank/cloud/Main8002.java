@@ -8,9 +8,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @SpringBootApplication
 @EnableDiscoveryClient // for service discovery Consul
 @RefreshScope // dynamic refreshing
-public class Main8001 {
+public class Main8002 {
 
     public static void main(String[] args) {
-        SpringApplication.run(Main8001.class, args);
+        SpringApplication.run(Main8002.class, args);
     }
 }

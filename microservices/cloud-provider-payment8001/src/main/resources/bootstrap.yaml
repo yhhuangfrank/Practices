@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: cloud-payment-service
+  cloud:
+    consul:
+      host: localhost # default
+      port: 8500 # default
+      discovery:
+        service-name: ${spring.application.name}
+      config:
+        profile-separator: "-" # default is ","
+        format: YAML
