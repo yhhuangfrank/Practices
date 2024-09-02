@@ -1,2 +1,13 @@
 server:
   port: 80
+
+spring:
+  application:
+    name: cloud-order-service
+  cloud:
+    consul:
+      host: localhost # default
+      port: 8500 # default
+      discovery:
+        service-name: ${spring.application.name}
+        prefer-ip-address: true
