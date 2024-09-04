@@ -2,8 +2,6 @@ package org.frank.cloud.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.frank.cloud.dto.PayDTO;
@@ -20,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/pay")
-@Tag(name = "支付微服務 module", description = "支付 CRUD")
+@Tag(name = "Payment module", description = "Pay CRUD")
 public class PayController {
 
     private final PayService payService;
@@ -44,9 +42,7 @@ public class PayController {
     @PutMapping("/update")
     @Operation(summary = "修改", description = "修改支付流水紀錄方法")
     public ResultData<Pay> updatePay(@RequestBody PayDTO payDTO) {
-        System.out.println(payDTO);
         Pay pay = mapper.map(payDTO, Pay.class);
-        System.out.println(pay);
         return ResultData.success(payService.save(pay));
     }
 

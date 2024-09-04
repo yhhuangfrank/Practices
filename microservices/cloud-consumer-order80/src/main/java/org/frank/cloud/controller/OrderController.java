@@ -61,7 +61,7 @@ public class OrderController {
     @GetMapping("/pay/config/info")
     public String getInfoOfConsul() {
         String url = PAYMENT_SERVICE_URL + "/pay/config/info";
-        // 預設請求為輪詢
+        // default use RoundRobin Algo
         return restTemplate.getForObject(url, String.class);
     }
 

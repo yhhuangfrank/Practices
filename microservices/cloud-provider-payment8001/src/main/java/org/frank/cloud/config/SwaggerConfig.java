@@ -13,7 +13,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi PayAPI() {
         return GroupedOpenApi.builder()
-                .group("支付微服務module")
+                .group("Payment-module")
                 .pathsToMatch("/pay/**")
                 .build();
     }
@@ -21,7 +21,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi OtherAPI() {
         return GroupedOpenApi.builder()
-                .group("其他微服務module")
+                .group("Other-module")
                 .pathsToMatch("/other/**", "/others")
                 .build();
     }
@@ -32,7 +32,7 @@ public class SwaggerConfig {
                 .info(
                         new Info()
                                 .title("spring-cloud-project")
-                                .description("通用設計REST")
+                                .description("REST APIs")
                                 .version("v1.0")
                 )
                 .externalDocs(
