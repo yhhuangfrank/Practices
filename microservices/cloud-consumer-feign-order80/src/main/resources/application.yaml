@@ -15,3 +15,13 @@ spring:
       discovery:
         service-name: ${spring.application.name}
         prefer-ip-address: true
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 3000
+            read-timeout: 3000
+          # specific service config
+          cloud-payment-service:
+            connect-timeout: 4000
+            read-timeout: 4000

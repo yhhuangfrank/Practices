@@ -7,13 +7,9 @@ import org.frank.cloud.entity.Pay;
 import org.frank.cloud.response.ResultData;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -32,7 +28,10 @@ public class OrderController {
 
     @GetMapping("/pay/{id}")
     public ResultData<Pay> getInfo(@PathVariable("id") Integer id) {
-        return payFeignApi.findById(id);
+        System.out.println(LocalDateTime.now());
+        ResultData<Pay> result = payFeignApi.findById(id);
+        System.out.println(LocalDateTime.now());
+        return result;
     }
 
     @GetMapping("/pay")

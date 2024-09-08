@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.frank.cloud.dto.PayDTO;
 import org.frank.cloud.entity.Pay;
+import org.frank.cloud.enums.ReturnCodeEnum;
 import org.frank.cloud.response.ResultData;
 import org.frank.cloud.service.PayService;
 import org.modelmapper.ModelMapper;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
@@ -52,6 +54,14 @@ public class PayController {
         if (id <= 0) {
             throw new RuntimeException("id cannot less than 0");
         }
+        // TEST - trigger time out
+//        try {
+//            TimeUnit.SECONDS.sleep(30);
+//            return ResultData.success(payService.getById(id));
+//        } catch (InterruptedException e) {
+//            log.error("error !", e);
+//            return ResultData.fail(ReturnCodeEnum.RC500.getCode(), e.getMessage());
+//        }
         return ResultData.success(payService.getById(id));
     }
 
