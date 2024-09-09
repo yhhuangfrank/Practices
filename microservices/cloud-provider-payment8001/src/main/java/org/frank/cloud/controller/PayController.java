@@ -55,14 +55,14 @@ public class PayController {
             throw new RuntimeException("id cannot less than 0");
         }
         // TEST - trigger time out
-//        try {
-//            TimeUnit.SECONDS.sleep(30);
-//            return ResultData.success(payService.getById(id));
-//        } catch (InterruptedException e) {
-//            log.error("error !", e);
-//            return ResultData.fail(ReturnCodeEnum.RC500.getCode(), e.getMessage());
-//        }
-        return ResultData.success(payService.getById(id));
+        try {
+            TimeUnit.SECONDS.sleep(30);
+            return ResultData.success(payService.getById(id));
+        } catch (InterruptedException e) {
+            log.error("error !", e);
+            return ResultData.fail(ReturnCodeEnum.RC500.getCode(), e.getMessage());
+        }
+//        return ResultData.success(payService.getById(id));
     }
 
     @GetMapping

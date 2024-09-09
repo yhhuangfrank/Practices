@@ -18,10 +18,13 @@ spring:
     openfeign:
       client:
         config:
-          default:
-            connect-timeout: 3000
-            read-timeout: 3000
+#          default:
+#            connect-timeout: 3000
+#            read-timeout: 3000
           # specific service config
           cloud-payment-service:
             connect-timeout: 4000
             read-timeout: 4000
+      httpclient:
+        hc5:
+          enabled: true
