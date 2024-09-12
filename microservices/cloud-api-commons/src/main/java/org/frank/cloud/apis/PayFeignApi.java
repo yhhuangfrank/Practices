@@ -28,4 +28,28 @@ public interface PayFeignApi {
 
     @GetMapping("/pay/config/info")
     String loadBalancer();
+
+    /**
+     * test circuit breaker
+     */
+    @GetMapping("/pay/circuit/{id}")
+    String myCircuit(@PathVariable("id") Integer id);
+
+    /**
+     * test bulkhead
+     */
+    @GetMapping("/pay/bulkhead/{id}")
+    String myBulkhead(@PathVariable("id") Integer id);
+
+    /**
+     * test threadPool bulkhead
+     */
+    @GetMapping("/pay/threadPoolBulkhead/{id}")
+    String myThreadPoolBulkhead(@PathVariable("id") Integer id);
+
+    /**
+     * test rateLimit
+     */
+    @GetMapping("/pay/rateLimit/{id}")
+    String myRateLimit(@PathVariable("id") Integer id);
 }

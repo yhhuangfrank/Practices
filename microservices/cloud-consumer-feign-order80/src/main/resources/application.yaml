@@ -23,8 +23,8 @@ spring:
           #            read-timeout: 3000
           # specific service config
           cloud-payment-service:
-            connect-timeout: 4000
-            read-timeout: 4000
+            connect-timeout: 20000
+            read-timeout: 20000
       httpclient:
         hc5:
           enabled: true
@@ -35,10 +35,65 @@ spring:
           min-request-size: 2048
         response:
           enabled: true
-logging:
-  level:
-    org:
-      frank:
-        cloud:
-          apis:
-            PayFeignApi: debug
+      circuitbreaker:
+        enabled: true
+#        group:
+#          enabled: true
+
+resilience4j:
+  # circuit breaker
+  circuitbreaker:
+    configs:
+      default:
+        failure-rate-threshold: 50
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 6
+        minimum-number-of-calls: 6
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 2
+        record-exceptions:
+          - java.lang.Exception
+    instances:
+      cloud-payment-service:
+        base-config: default
+  # bulkhead (semaphore)
+  bulkhead:
+    configs:
+      default:
+        max-concurrent-calls: 2
+        max-wait-duration: 1s
+    instances:
+      cloud-payment-service:
+        base-config: default
+  # bulkhead (fixed threadPool)
+  thread-pool-bulkhead:
+    configs:
+      default:
+        # max + queue -> max concurrent no of thread = 2
+        core-thread-pool-size: 1
+        max-thread-pool-size: 1
+        queue-capacity: 1
+    instances:
+      cloud-payment-service:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 20s # default 1s
+  ratelimiter:
+    configs:
+      default:
+        limit-for-period: 2
+        limit-refresh-period: 1s
+        timeout-duration: 1s
+    instances:
+      cloud-payment-service:
+        base-config: default
+#logging:
+#  level:
+#    org:
+#      frank:
+#        cloud:
+#          apis:
+#            PayFeignApi: debug
