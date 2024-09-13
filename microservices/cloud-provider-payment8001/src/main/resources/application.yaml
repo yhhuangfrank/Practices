@@ -13,3 +13,11 @@ spring:
         format_sql: true
   profiles:
     active: dev
+# ========================zipkin========================
+management:
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0 # default 0.1

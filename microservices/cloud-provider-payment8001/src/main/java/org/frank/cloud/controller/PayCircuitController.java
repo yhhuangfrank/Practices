@@ -36,7 +36,6 @@ public class PayCircuitController {
             }
         }
         return "Hello, bulkhead! inputId: " + id + " \t " + UUID.randomUUID().toString().replace("-", "");
-
     }
 
     @GetMapping("/pay/threadPoolBulkhead/{id}")
@@ -51,7 +50,6 @@ public class PayCircuitController {
             }
         }
         return "Hello, thread pool bulkhead! inputId: " + id + " \t " + UUID.randomUUID().toString().replace("-", "");
-
     }
 
     @GetMapping("/pay/rateLimit/{id}")
