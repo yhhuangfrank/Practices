@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "cloud-payment-service")
+//@FeignClient(value = "cloud-payment-service")
+@FeignClient(value = "cloud-gateway") // make feign request go through gateway
 public interface PayFeignApi {
 
     @PostMapping("/pay/add")
@@ -58,4 +59,10 @@ public interface PayFeignApi {
      */
     @GetMapping("/pay/micrometer/{id}")
     String myMicrometer(@PathVariable("id") Integer id);
+
+    @GetMapping("/pay/gateway/get/{id}")
+    ResultData<Pay> getById(@PathVariable("id") Integer id);
+
+    @GetMapping("/pay/gateway/info")
+    ResultData<String> getGatewayInfo();
 }

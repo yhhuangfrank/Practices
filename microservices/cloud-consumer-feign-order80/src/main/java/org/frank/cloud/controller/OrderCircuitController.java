@@ -26,7 +26,7 @@ public class OrderCircuitController {
 
     // final method when fail
     public String myCircuitFallback(Integer id, Throwable t) {
-        return "myCircuitFallback called, system is busy... param: %s".formatted(id);
+        return "myCircuitFallback called, system is busy... param: %s, error message: %s".formatted(id, t.getMessage());
     }
 
     @GetMapping("/feign/pay/bulkhead/{id}")

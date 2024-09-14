@@ -1,0 +1,30 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+    gateway:
+      routes:
+        - id: cloud-gateway_pay_route1
+#          uri: http://localhost:8001
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/pay/gateway/get/**
+#            - Header=X-Request-Id, \d+
+        - id: cloud-gateway_pay_route2
+#          uri: http://localhost:8001
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/pay/gateway/info/**
+        - id: cloud-gateway_pay_route3
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/pay/circuit/**
