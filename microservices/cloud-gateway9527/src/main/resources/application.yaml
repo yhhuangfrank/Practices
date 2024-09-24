@@ -19,6 +19,10 @@ spring:
           predicates:
             - Path=/pay/gateway/get/**
 #            - Header=X-Request-Id, \d+
+            - My=diamond
+#            - name: My
+#              args:
+#                userType: diamond
         - id: cloud-gateway_pay_route2
 #          uri: http://localhost:8001
           uri: lb://cloud-payment-service
