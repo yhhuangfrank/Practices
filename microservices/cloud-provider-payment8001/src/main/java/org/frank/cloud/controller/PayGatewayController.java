@@ -1,5 +1,6 @@
 package org.frank.cloud.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.frank.cloud.entity.Pay;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Enumeration;
 import java.util.UUID;
 
 @Slf4j
@@ -32,5 +34,23 @@ public class PayGatewayController {
     @GetMapping("/info")
     public ResultData<String> getGatewayInfo() {
         return ResultData.success("gateway info test: " + UUID.randomUUID().toString().replace("-", ""));
+    }
+
+    @GetMapping("/filter")
+    public ResultData<String> getGatewayFilter(HttpServletRequest request) {
+        String result = "";
+        Enumeration<String> headers = request.getHeaderNames();
+        while (headers.hasMoreElements()) {
+            String headName = headers.nextElement();
+            String headValue = request.getHeader(headName);
+            System.out.printf("request headerName %s head value: %s %n", headName, headValue);
+
+            if (headName.equalsIgnoreCase("X-Request-frank1") ||
+            headName.equalsIgnoreCase("X-Request-frank2")) {
+                result = result + headName + "\t" + headValue + " ";
+            }
+        }
+
+        return ResultData.success("gateway filter test: " + result + "\t" + System.currentTimeMillis());
     }
 }

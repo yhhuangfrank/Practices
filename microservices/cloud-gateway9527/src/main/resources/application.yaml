@@ -32,3 +32,21 @@ spring:
           uri: lb://cloud-payment-service
           predicates:
             - Path=/pay/circuit/**
+        - id: cloud-gateway_pay_route4
+          uri: lb://cloud-payment-service
+          predicates:
+#            - Path=/pay/gateway/filter/**
+            - Path=/gateway/filter/**
+#            - Path=/XYZ/abc/{param}
+          filters:
+            - AddRequestHeader=X-Request-frank1,frankValue1
+#            - AddRequestHeader=X-Request-frank2,frankValue2
+#            - RemoveRequestHeader=sec-fetch-site
+#            - SetRequestHeader=sec-fetch-mode,Blue-updatefrank
+#            - AddRequestParameter=customerName
+#            - AddResponseHeader=X-Response-frank,BlueResponse
+#            - SetResponseHeader=Date,2099-01-01
+#            - RemoveResponseHeader=Content-Type
+            - PrefixPath=/pay
+#            - SetPath=/pay/gateway/{param}
+            - RedirectTo=302, http://www.google.com
