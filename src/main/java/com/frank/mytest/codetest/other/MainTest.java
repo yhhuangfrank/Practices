@@ -3,6 +3,7 @@ package com.frank.mytest.codetest.other;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainTest {
@@ -14,7 +15,9 @@ public class MainTest {
 
 //        test();
         
-        test2();
+//        test2();
+
+        test3();
     }
 
     public static void m1(int a, int b) {
@@ -35,5 +38,11 @@ public class MainTest {
         List<Integer> list = new ArrayList<>(List.of(1, 2, 3));
         List<Integer> list1 = list.stream().filter(i -> i == 4).toList();
         System.out.println(list1);
+    }
+
+    public static void test3() {
+        String string  = "g1";
+        String[] arr = string.split(",");
+        System.out.println(Arrays.toString(arr));
     }
 }
