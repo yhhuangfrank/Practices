@@ -1,23 +1,23 @@
 package com.frank.mytest.codetest.dsa.algo.sort;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class Insertion {
     public static void main(String[] args) {
 //        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
-//        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
-        int[] arr = new int[80000];
-        Random random = new Random();
-        for (int i = 0; i < arr.length; i++) {
-            int num = random.nextInt(1, 1000000);
-            arr[i] = num;
-        }
-        long start = System.currentTimeMillis();
-        insertionSort(arr);
-        long end = System.currentTimeMillis();
-        System.out.println("耗時： " + (end - start) + " ms");
-//        System.out.println("排序後 : " + Arrays.toString(arr));
+        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
+//        int[] arr = new int[80000];
+//        Random random = new Random();
+//        for (int i = 0; i < arr.length; i++) {
+//            int num = random.nextInt(1, 1000000);
+//            arr[i] = num;
+//        }
+//        long start = System.currentTimeMillis();
+//        insertionSort(arr);
+//        long end = System.currentTimeMillis();
+//        System.out.println("耗時： " + (end - start) + " ms");
+        insertionSortV2(arr);
+        System.out.println("排序後 : " + Arrays.toString(arr));
     }
 
     // 最終版本
@@ -36,6 +36,19 @@ public class Insertion {
                 arr[insertIndex + 1] = insertVal;
             }
 //            System.out.println("第 " + i + " 輪： " + Arrays.toString(arr));
+        }
+    }
+
+    public static void insertionSortV2(int[] arr) {
+        if (arr.length <= 1) return;
+        for (int i = 1; i < arr.length; i++) {
+            int j = i - 1;
+            while (j >= 0 && arr[j] > arr[j + 1]) {
+                int temp = arr[j + 1];
+                arr[j + 1] = arr[j];
+                arr[j] = temp;
+                j -= 1;
+            }
         }
     }
 
