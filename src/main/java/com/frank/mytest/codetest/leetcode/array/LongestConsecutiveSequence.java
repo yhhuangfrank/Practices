@@ -13,6 +13,7 @@ public class LongestConsecutiveSequence {
         System.out.println(set1);
     }
 
+    // O(n) time
     public static int longestConsecutive(int[] nums) {
         if (nums.length == 0) return 0;
         Set<Integer> set = new HashSet<>();
@@ -26,10 +27,10 @@ public class LongestConsecutiveSequence {
             if (!set.contains(curr - 1)) { // 0, 55, 77, 88, 99, 999999999
                 while (set.contains(curr + 1)) {
                     len++;
-                    maxLen = Math.max(maxLen, len);
                     curr++;
                 }
             }
+            maxLen = Math.max(maxLen, len);
         }
         return maxLen;
     }
