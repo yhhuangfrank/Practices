@@ -8,7 +8,29 @@ public class CarFleet {
         int[] position = new int[]{10, 8, 0, 5, 3};
         int[] speed = new int[]{2, 4, 1, 1, 3};
         System.out.println(carFleet(target, position, speed));
+        System.out.println(carFleetV2(target, position, speed));
     }
+
+    // O(NlogN), monotonic stack
+    public static int carFleetV2(int target, int[] position, int[] speed) {
+        int n = position.length;
+        Map<Integer, Double> timeMap = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            double time = (double) (target - position[i]) / speed[i];
+            timeMap.put(position[i], time);
+        }
+        Deque<Double> stack = new ArrayDeque<>();
+        int[] newP = Arrays.stream(position).sorted().toArray();
+        for (int i = n - 1; i >= 0; i--) {
+            double t = timeMap.get(newP[i]);
+            if (!stack.isEmpty() && t <= stack.peekLast()) {
+                continue;
+            }
+            stack.addLast(t);
+        }
+        return stack.size();
+    }
+
 
     public static int carFleet(int target, int[] position, int[] speed) {
         // 單行道不能超車因此會被前一台車卡住，位置進行排序後，計算到終點所需時間，若比較遠的位置所需時間較前一台車少，那麼此兩台車會形成一車隊
