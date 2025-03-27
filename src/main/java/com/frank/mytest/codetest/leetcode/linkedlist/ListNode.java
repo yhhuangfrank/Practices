@@ -9,9 +9,10 @@ import lombok.ToString;
 @ToString
 public class ListNode {
 
+    int val;
+
     @ToString.Exclude
     ListNode next;
-    int val;
 
     public ListNode(int val) {
         this.val = val;

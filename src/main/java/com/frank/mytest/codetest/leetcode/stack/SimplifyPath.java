@@ -28,9 +28,9 @@ public class SimplifyPath {
         String s1 = "/home//foo/";
         String s2 = "/../";
         String s3 = "/a//b////c/d//././/..";
-        System.out.println(simplifyPathV3(s1));
-        System.out.println(simplifyPathV3(s2));
-        System.out.println(simplifyPathV3(s3));
+        System.out.println(simplifyPathV4(s1));
+        System.out.println(simplifyPathV4(s2));
+        System.out.println(simplifyPathV4(s3));
     }
 
     /**
@@ -120,5 +120,35 @@ public class SimplifyPath {
         }
 
         return sb.toString();
+    }
+
+    public static String simplifyPathV4(String path) {
+        Deque<String> deque = new ArrayDeque<>();
+        int l = 0;
+        int r = 0;
+        while (r < path.length()) {
+            while (r < path.length() && path.charAt(r) == '/') {
+                r += 1;
+            }
+            l = r;
+            while (r < path.length() && path.charAt(r) != '/') {
+                r += 1;
+            }
+            String s = path.substring(l, r);
+            if (s.isEmpty()) continue;
+            if ("..".equals(s)) {
+                deque.pollLast();
+            } else if (!".".equals(s)) {
+                deque.addLast(s);
+            }
+        }
+        StringBuilder res = new StringBuilder("/");
+        while (!deque.isEmpty()) {
+            res.append(deque.pollFirst());
+            if (!deque.isEmpty()) {
+                res.append("/");
+            }
+        }
+        return res.toString();
     }
 }
