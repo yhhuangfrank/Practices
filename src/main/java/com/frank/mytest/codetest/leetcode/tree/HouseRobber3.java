@@ -25,7 +25,9 @@ public class HouseRobber3 {
     static class Solution {
         public int rob(TreeNode root) {
 //            return dfs(root);
-            return dfs(root, new HashMap<>());
+//            return dfs(root, new HashMap<>());
+            int[] res = dfsOptimal(root);
+            return Math.max(res[0], res[1]);
         }
         // brute force
         private int dfs(TreeNode root, boolean isValid) {
@@ -68,6 +70,20 @@ public class HouseRobber3 {
             res = Math.max(res, dfs(root.left) + dfs(root.right));
             cache.put(root, res);
             return res;
+        }
+
+        // optimal recursion
+        private int[] dfsOptimal(TreeNode root) {
+            int[] res = new int[2]; // [withRoot, withoutRoot]
+            if (root == null) return res;
+
+            int[] left = dfsOptimal(root.left);
+            int[] right = dfsOptimal(root.right);
+
+            int withRoot = root.val + left[1] + right[1];
+            int withoutRoot = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+
+            return new int[] {withRoot, withoutRoot};
         }
     }
 }
