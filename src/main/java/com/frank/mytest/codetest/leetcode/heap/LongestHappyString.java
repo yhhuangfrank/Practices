@@ -22,7 +22,7 @@ public class LongestHappyString {
     static class Solution {
         public String longestDiverseString(int a, int b, int c) {
             int[] count = new int[] {a, b, c};
-            PriorityQueue<int[]> maxHeap = new PriorityQueue<>((x, y) -> y[1] - x[1]);
+            PriorityQueue<int[]> maxHeap = new PriorityQueue<>((x, y) -> y[1] - x[1]); // [char, count]
             for (int i = 0; i < count.length; i++) {
                 if (count[i] > 0) {
                     maxHeap.add(new int[] {i, count[i]});
