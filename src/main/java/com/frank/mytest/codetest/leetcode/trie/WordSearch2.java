@@ -12,11 +12,11 @@ public class WordSearch2 {
 
     public static void main(String[] args) {
         char[][] board = new char[4][4];
-        board[0] = new char[]{'o', 'a', 'a', 'n'};
-        board[1] = new char[]{'e', 't', 'a', 'e'};
-        board[2] = new char[]{'i', 'h', 'k', 'r'};
-        board[3] = new char[]{'i', 'f', 'l', 'v'};
-        String[] words = new String[]{"eat", "oath", "pea", "rain"};
+        board[0] = new char[] { 'o', 'a', 'a', 'n' };
+        board[1] = new char[] { 'e', 't', 'a', 'e' };
+        board[2] = new char[] { 'i', 'h', 'k', 'r' };
+        board[3] = new char[] { 'i', 'f', 'l', 'v' };
+        String[] words = new String[] { "eat", "oath", "pea", "rain" };
         long start = System.currentTimeMillis();
         System.out.println(findWords(board, words));
         long end = System.currentTimeMillis();
@@ -62,7 +62,8 @@ public class WordSearch2 {
 
     public static void dfs(int i, int j, char[][] board, TrieNode n, List<String> res) {
         char c = board[i][j];
-        if (c == '#' || n.children[c - 'a'] == null) return;
+        if (c == '#' || n.children[c - 'a'] == null)
+            return;
 
         TrieNode nextNode = n.children[c - 'a'];
         if (nextNode.word != null) {
@@ -93,7 +94,8 @@ public class WordSearch2 {
             String path,
             List<String> result) {
         char c = board[i][j];
-        if (t.get(c) == null) return; // 沒有在 trie 中
+        if (t.get(c) == null)
+            return; // 沒有在 trie 中
 
         Map<Character, Object> nextT = (Map<Character, Object>) t.get(c);
         String nextPath = path + c;
