@@ -10,8 +10,8 @@ public class ExtraCharactersInAString {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.minExtraChar("leetscode", new String[] { "leet", "code", "leetcode" }));
-        System.out.println(solution.minExtraChar("sayhelloworld", new String[] { "hello", "world" }));
+        System.out.println(solution.minExtraChar("leetscode", new String[] { "leet", "code", "leetcode" })); // 1
+        System.out.println(solution.minExtraChar("sayhelloworld", new String[] { "hello", "world" })); // 3
     }
 
     static class Solution {
@@ -19,7 +19,8 @@ public class ExtraCharactersInAString {
             // Set<String> words = new HashSet<>(Arrays.asList(dictionary));
             // return dfs(0, s, words);
             // return memoization(0, s, words, new HashMap<>());
-            return dp(s, dictionary);
+            // return dp(s, dictionary);
+            return minExtraCharByTrie(s, dictionary);
         }
 
         // dfs solution
@@ -65,6 +66,61 @@ public class ExtraCharactersInAString {
                 }
             }
             return dp[0];
+        }
+
+        // enhanced by Prefix Tree, time complexity: O(n^2)
+        private int minExtraCharByTrie(String s, String[] dictionary) {
+            Trie trie = new Trie();
+            for (String word : dictionary) {
+                trie.insert(word);
+            }
+            return dfsByTrie(0, s, trie);
+        }
+
+        private int dfsByTrie(int i, String s, Trie trie) {
+            if (i == s.length()) return 0;
+            TrieNode node = trie.root;
+            int res = 1 + dfsByTrie(i + 1, s, trie); // skip current char
+            for (int j = i; j < s.length(); j++) {
+                // check if current char is in trie as a prefix
+                char c = s.charAt(j);
+                if (node.children[c - 'a'] == null) break; // no way to have a valid word, break
+                node = node.children[c - 'a'];
+                if (node.isWord) {
+                    res = Math.min(res, dfsByTrie(j + 1, s, trie)); // found a valid word, check next char
+                }
+            }
+            return res;
+        }
+
+        // create Prefix Tree
+        private class Trie {
+            private TrieNode root;
+
+            public Trie() {
+                root = new TrieNode();
+            }
+            
+            public void insert(String word) {
+                TrieNode node = root;
+                for (char c : word.toCharArray()) {
+                    if (node.children[c - 'a'] == null) {
+                        node.children[c - 'a'] = new TrieNode();
+                    }
+                    node = node.children[c - 'a'];
+                }
+                node.isWord = true;
+            }
+        }
+
+        private class TrieNode {
+            private TrieNode[] children;
+            private boolean isWord;
+
+            public TrieNode() {
+                children = new TrieNode[26];
+                isWord = false;
+            }
         }
     }
 }
