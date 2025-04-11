@@ -70,26 +70,30 @@ public class ExtraCharactersInAString {
 
         // enhanced by Prefix Tree, time complexity: O(n^2)
         private int minExtraCharByTrie(String s, String[] dictionary) {
+            Map<Integer, Integer> cache = new HashMap<>();
+            cache.put(s.length(), 0);
             Trie trie = new Trie();
             for (String word : dictionary) {
                 trie.insert(word);
             }
-            return dfsByTrie(0, s, trie);
+            return dfsByTrieAndCache(0, s, trie, cache);
         }
 
-        private int dfsByTrie(int i, String s, Trie trie) {
+        private int dfsByTrieAndCache(int i, String s, Trie trie, Map<Integer, Integer> cache) {
+            if (cache.containsKey(i)) return cache.get(i);
             if (i == s.length()) return 0;
             TrieNode node = trie.root;
-            int res = 1 + dfsByTrie(i + 1, s, trie); // skip current char
+            int res = 1 + dfsByTrieAndCache(i + 1, s, trie, cache); // skip current char
             for (int j = i; j < s.length(); j++) {
                 // check if current char is in trie as a prefix
                 char c = s.charAt(j);
                 if (node.children[c - 'a'] == null) break; // no way to have a valid word, break
                 node = node.children[c - 'a'];
                 if (node.isWord) {
-                    res = Math.min(res, dfsByTrie(j + 1, s, trie)); // found a valid word, check next char
+                    res = Math.min(res, dfsByTrieAndCache(j + 1, s, trie, cache)); // found a valid word, check next char
                 }
             }
+            cache.put(i, res);
             return res;
         }
 
