@@ -41,9 +41,7 @@ public class CourseSchedule2 {
         visited[cur] = true;
         path.add(cur);
         for (int neigh : adj.get(cur)) {
-            if (!dfs(neigh, adj, visited, path, res)) {
-                return false;
-            }
+            if (!dfs(neigh, adj, visited, path, res)) return false;
         }
         path.remove(cur);
         res.add(cur);

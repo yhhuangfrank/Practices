@@ -11,7 +11,7 @@ package com.frank.mytest.codetest.leetcode.binarySearch;
  */
 public class FindMinimumInRotatedSortedArray {
     public static void main(String[] args) {
-        int[] arr = new int[]{0, 1, 2, 4, 5, 6, 7};
+        int[] arr = new int[]{4, 5, 6, 7, 0, 1, 2};
         System.out.println(findMin(arr));
         System.out.println(findMinByDFS(arr));
     }
@@ -52,8 +52,8 @@ public class FindMinimumInRotatedSortedArray {
         }
         // 遞迴並取最小值
         return Math.min(
-            dfs(nums, l, mid - 1),
-            dfs(nums, mid + 1, r)
+                dfs(nums, l, mid - 1),
+                dfs(nums, mid + 1, r)
         );
     }
 }

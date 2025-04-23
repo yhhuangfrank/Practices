@@ -1,4 +1,4 @@
-package com.frank.mytest.codetest.leetcode.array.twopointer;
+package com.frank.mytest.codetest.leetcode.array.slidingwindow;
 
 public class BestTimeToBuyAndSellStock {
     public static void main(String[] args) {

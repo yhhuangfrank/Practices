@@ -24,7 +24,7 @@ public class LongestConsecutiveSequence {
         for (int n : set) { // 從 set 遍歷，去除重複的判斷
             int len = 1;
             int curr = n;
-            if (!set.contains(curr - 1)) { // 0, 55, 77, 88, 99, 999999999
+            if (!set.contains(curr - 1)) { // 不是起點
                 while (set.contains(curr + 1)) {
                     len++;
                     curr++;
