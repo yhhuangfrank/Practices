@@ -21,32 +21,56 @@ public class LongestUnivaluePath {
         TreeNode left = new TreeNode(4, new TreeNode(4), new TreeNode(4));
         TreeNode right = new TreeNode(5, null, new TreeNode(5));
         TreeNode root = new TreeNode(1, left, right);
-        System.out.println(longestUnivaluePath(root));
+        Solution solution = new Solution();
+//        System.out.println(solution.longestUnivaluePath(root)); // 2
+        System.out.println(solution.longestUnivaluePathV2(root)); // 2
     }
 
-    public static int longestUnivaluePath(TreeNode root) {
-        if (root == null) return 0;
-        countLength(root, null);
-//        System.out.println("len " + length);
-        return maxLength;
-    }
-
-    /**
-     * @param root  目前節點
-     * @param value 父節點的值
-     * @return 以父節點作為相同值的最大路徑長
-     */
-    public static int countLength(TreeNode root, Integer value) {
-        if (root == null) return 0;
-        // 數左右分支各自長度
-        int left = countLength(root.left, root.val);
-        int right = countLength(root.right, root.val);
-        maxLength = Math.max(maxLength, left + right); // 取和之後跟最大長比較與更新
-        System.out.println(maxLength + " , root: " + root + ", value: " + value);
-
-        if (value != null && root.val == value) { // 若目前節點與上層節點相同值，表示可以往上連接，長度再加一
-            return Math.max(left, right) + 1; // 取左右路徑較長的分支
+    static class Solution {
+        public int longestUnivaluePathV2(TreeNode root) {
+            int[] res = new int[1];
+            dfs(root, null, res);
+            return res[0];
         }
-        return 0; // 無法往上連接
+
+        private int dfs(TreeNode root, Integer value, int[] res) {
+            if (root == null) return 0;
+            int left = dfs(root.left, root.val, res);
+            int right = dfs(root.right, root.val, res);
+            res[0] = Math.max(res[0], left + right);
+
+            if (value != null && value == root.val) {
+                return 1 + Math.max(left, right);
+            }
+            return 0;
+        }
+
+        public int longestUnivaluePath(TreeNode root) {
+            if (root == null) return 0;
+            countLength(root, null);
+//        System.out.println("len " + length);
+            return maxLength;
+        }
+
+        /**
+         * @param root  目前節點
+         * @param value 父節點的值
+         * @return 以父節點作為相同值的最大路徑長
+         */
+        public static int countLength(TreeNode root, Integer value) {
+            if (root == null) return 0;
+            // 數左右分支各自長度
+            int left = countLength(root.left, root.val);
+            int right = countLength(root.right, root.val);
+            maxLength = Math.max(maxLength, left + right); // 取和之後跟最大長比較與更新
+            System.out.println(maxLength + " , root: " + root + ", value: " + value);
+
+            if (value != null && root.val == value) { // 若目前節點與上層節點相同值，表示可以往上連接，長度再加一
+                return Math.max(left, right) + 1; // 取左右路徑較長的分支
+            }
+            return 0; // 無法往上連接
+        }
     }
+
+
 }
