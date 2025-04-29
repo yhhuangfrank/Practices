@@ -42,7 +42,7 @@ public class LongestUnivaluePath {
         int left = countLength(root.left, root.val);
         int right = countLength(root.right, root.val);
         maxLength = Math.max(maxLength, left + right); // 取和之後跟最大長比較與更新
-        System.out.println(maxLength + " , root: " + root+ ", value: " + value);
+        System.out.println(maxLength + " , root: " + root + ", value: " + value);
 
         if (value != null && root.val == value) { // 若目前節點與上層節點相同值，表示可以往上連接，長度再加一
             return Math.max(left, right) + 1; // 取左右路徑較長的分支
