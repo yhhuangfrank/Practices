@@ -60,8 +60,7 @@ public class LongestRepeatingCharacterReplacement {
         // O(26n + n) -> O(n) time (r 走 n 次, l 走 26n 次)
         while (r < s.length()) {
             String c = s.substring(r, r + 1);
-            count.computeIfPresent(c, (key, v) -> v + 1);
-            count.putIfAbsent(c, 1);
+            count.put(c, count.getOrDefault(c, 0) + 1);
             // find max occurrence of char
             int currStringLen = r - l + 1;
             while (currStringLen - findMax(count) > k) {
@@ -78,8 +77,8 @@ public class LongestRepeatingCharacterReplacement {
 
     public static int findMax(Map<String, Integer> count) { // O(26)
         int max = 0;
-        for (Map.Entry<String, Integer> e : count.entrySet()) {
-            max = Math.max(max, e.getValue());
+        for (Integer v : count.values()) {
+            max = Math.max(max, v);
         }
         return max;
     }
