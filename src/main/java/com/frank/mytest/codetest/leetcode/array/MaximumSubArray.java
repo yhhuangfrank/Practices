@@ -20,7 +20,23 @@ public class MaximumSubArray {
     static class Solution {
         public int maxSubArray(int[] nums) {
 //      return maxSubArrayByBruteForce(nums);
+            System.out.printf("maxSubArrayByFindMinPrefixSum ans is: %s%n", maxSubArrayByFindMinPrefixSum(nums));
             return maxSubArrayByKadane(nums);
+        }
+
+        private int maxSubArrayByFindMinPrefixSum(int[] nums) {
+            // subArray(i, j) = prefixSum(j) - prefixSum(i - 1)
+            int minPrefixSum = 0;
+            int prefixSum = 0;
+            int ans = nums[0];
+
+            for (int n : nums) {
+                prefixSum += n;
+                ans = Math.max(ans, prefixSum - minPrefixSum);
+                minPrefixSum = Math.min(minPrefixSum, prefixSum);
+            }
+
+            return ans;
         }
 
         // brute force solution, O(n^2) time complexity
