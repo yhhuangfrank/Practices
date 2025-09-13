@@ -4,11 +4,9 @@ import java.util.List;
 
 public class MeetingRooms {
 //    Input: intervals = [(0,30),(5,10),(15,20)]
-//
 //    Output: false
 //
 //    Input: intervals = [(5,8),(9,15)]
-//
 //    Output: true
 
     public static void main(String[] args) {
