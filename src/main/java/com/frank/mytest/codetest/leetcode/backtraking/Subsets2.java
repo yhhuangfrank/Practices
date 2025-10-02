@@ -1,6 +1,7 @@
 package com.frank.mytest.codetest.leetcode.backtraking;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Subsets2 {
@@ -8,10 +9,12 @@ public class Subsets2 {
     public static void main(String[] args) {
         Solution solution = new Solution();
         System.out.println(solution.subsets(new int[]{1, 2, 2}));
+        System.out.println(solution.subsets(new int[]{4, 1, 4}));
     }
 
     private static class Solution {
         public List<List<Integer>> subsets(int[] nums) {
+            Arrays.sort(nums);
             List<List<Integer>> res = new ArrayList<>();
             dfs(0, nums, res, new ArrayList<>());
             return res;
