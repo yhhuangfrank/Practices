@@ -30,6 +30,7 @@ public class Subsets2 {
             lst.remove(lst.size() - 1);
 
             int j = i + 1;
+            // 跳過重複
             while (j < nums.length && nums[j] == nums[i]) {
                 j += 1;
             }
