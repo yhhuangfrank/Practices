@@ -6,7 +6,7 @@ public class DistributeMoneyToMaximumChildren {
         Solution solution = new Solution();
         System.out.println(solution.distMoney(20, 3)); // 1
         System.out.println(solution.distMoney(16, 2)); // 2
-        System.out.println(solution.distMoney(15, 2)); // 1
+        System.out.println(solution.distMoney(50, 2)); // 1
     }
 
     /**
