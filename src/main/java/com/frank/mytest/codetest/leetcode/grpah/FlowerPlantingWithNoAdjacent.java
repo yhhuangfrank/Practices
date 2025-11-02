@@ -43,13 +43,14 @@ public class FlowerPlantingWithNoAdjacent {
             }
 
             for (int i = 1; i <= n; i++) {
-                boolean[] used = new boolean[5];
+                boolean[] used = new boolean[5]; // 哪些編號被用過
                 for (int neighbor : this.adj.getOrDefault(i, new ArrayList<>())) {
                     int flowerId = flowers[neighbor];
                     if (flowerId != 0) {
                         used[flowerId] = true;
                     }
                 }
+                // 找一個沒有用過的編號
                 for (int j = 1; j < used.length; j++) {
                     if (!used[j]) {
                         flowers[i] = j;
