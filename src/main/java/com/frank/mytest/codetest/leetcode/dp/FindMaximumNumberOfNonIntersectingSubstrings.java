@@ -31,14 +31,19 @@ public class FindMaximumNumberOfNonIntersectingSubstrings {
     }
 
     static class Solution {
+
+        public int maxSubstrings(String word) {
+//            return memoization(word);
+            return bottomUp(word);
+        }
         /**
          * memoization
          * time: O(N), 預處理下一次字母出現位置
          * space: O(N)
          */
-        public int maxSubstrings(String word) {
+        public int memoization(String word) {
             int n = word.length();
-            int[] dp = new int[n];
+            int[] dp = new int[n]; // cache，紀錄已經計算過的起始點的 index，最多共有幾個不重疊的 substrings
             Arrays.fill(dp, -1);
             // 優化處理 - nextOcc，沒有使用 nextOcc 時間複雜度為 O(N^2)
             // 紀錄從特定位置 i 下一次出現此 word.charAt(i) 的字母的位置為何
@@ -47,7 +52,7 @@ public class FindMaximumNumberOfNonIntersectingSubstrings {
             for (int i = n - 1; i >= 0; i--) {
                 char c = word.charAt(i);
                 for (int j = 0; j < 26; j++) {
-                    nextOcc[i][c - 'a'] = nextOcc[i + 1][c - 'a']; // 繼承下一層
+                    nextOcc[i][j] = nextOcc[i + 1][j]; // 繼承下一層
                 }
                 nextOcc[i][c - 'a'] = i;
             }
@@ -59,17 +64,43 @@ public class FindMaximumNumberOfNonIntersectingSubstrings {
             if (dp[s] != -1) return dp[s];
             int res = dfs(s + 1, word, dp, nextOcc);
             int i = s + 3;
-            while (i < word.length()) {
-                if (word.charAt(i) == word.charAt(s)) {
-                    break;
-                }
-                i++;
+            int nextIdx = nextOcc[i][word.charAt(s) - 'a'];
+            if (nextIdx != -1 && nextIdx < word.length()) {
+                res = Math.max(res, 1 + dfs(nextIdx + 1, word, dp, nextOcc));
             }
-            if (i != word.length()) {
-                res = Math.max(res, 1 + dfs(i + 1, word, dp, nextOcc));
-            }
+//            while (i < word.length()) {
+//                if (word.charAt(i) == word.charAt(s)) {
+//                    break;
+//                }
+//                i++;
+//            }
+//            if (i != word.length()) {
+//                res = Math.max(res, 1 + dfs(i + 1, word, dp));
+//            }
             dp[s] = res;
             return res;
+        }
+
+        /**
+         *  bottom-up DP
+         */
+        public int bottomUp(String word) {
+            int n = word.length();
+            int[] dp = new int[n + 1];
+            dp[n] = 0;
+            for (int i = n - 1; i >= 0; i--) {
+                char c = word.charAt(i);
+                int res = dp[i + 1];
+                int j = i + 3;
+                while (j < word.length() && word.charAt(j) != c) {
+                    j++;
+                }
+                if (j < word.length()) {
+                    res = Math.max(res, 1 + dp[j + 1]);
+                }
+                dp[i] = res;
+            }
+            return dp[0];
         }
     }
 }
