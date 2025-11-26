@@ -23,6 +23,7 @@ public class AllAncestorsOfANodeInADirectedAcyclicGraph {
         Map<Integer, Set<Integer>> cache = new HashMap<>();
 
         public List<List<Integer>> getAncestors(int n, int[][] edges) {
+            // 反向指引，讓路徑變成走回每個節點的父節點，使用 dfs 就可找到某一節點的所有祖先
             for (int[] e : edges) {
                 int child = e[1];
                 int parent = e[0];
