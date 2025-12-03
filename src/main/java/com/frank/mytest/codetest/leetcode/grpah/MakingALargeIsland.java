@@ -2,15 +2,25 @@ package com.frank.mytest.codetest.leetcode.grpah;
 
 import java.util.*;
 
+/**
+ * Input: grid = [[1,0],[0,1]]
+ * Output: 3
+ * Input: grid = [[1,1],[1,0]]
+ * Output: 4
+ * Input: grid = [[1,1],[1,1]]
+ * Output: 4
+ */
 public class MakingALargeIsland {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-
+        System.out.println(s.largestIsland(new int[][]{{1, 0}, {0, 1}})); // 3
+        System.out.println(s.largestIsland(new int[][]{{1, 1}, {1, 0}})); // 4
+        System.out.println(s.largestIsland(new int[][]{{1, 1}, {1, 1}})); // 4
     }
 
     static class Solution {
-        int[][] direction = new int[][] {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int[][] direction = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         int n;
         int id = 2;
         Map<Integer, Integer> idToArea = new HashMap<>();
@@ -28,7 +38,7 @@ public class MakingALargeIsland {
             // 對於每個 0，計算周遭相鄰島嶼面積和 + 1，
             // 其中最大值即為答案
             int maxArea = 0;
-            boolean isZeroNotExist = true;
+            boolean isZeroNotExist = true; // 特殊情況，沒有 0
             for (int r = 0; r < n; r++) {
                 for (int c = 0; c < n; c++) {
                     if (grid[r][c] == 0) {
@@ -52,7 +62,7 @@ public class MakingALargeIsland {
                     }
                 }
             }
-
+            // 是否沒有水 (0)
             return isZeroNotExist ? n * n : maxArea;
         }
 
@@ -64,6 +74,7 @@ public class MakingALargeIsland {
                 int dc = d[1];
                 int nr = r + dr;
                 int nc = c + dc;
+                // 排除已經標記id的位置與位置是水 (= 0)
                 if (nr < 0 || nc < 0 || nr == n || nc == n || grid[nr][nc] == id || grid[nr][nc] == 0) {
                     continue;
                 }
