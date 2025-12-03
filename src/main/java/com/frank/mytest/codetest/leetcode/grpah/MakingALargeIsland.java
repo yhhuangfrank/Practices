@@ -29,6 +29,7 @@ public class MakingALargeIsland {
             n = grid.length;
             for (int r = 0; r < n; r++) {
                 for (int c = 0; c < n; c++) {
+                    // 為每個島嶼標記一個 id，並 cache
                     if (grid[r][c] != 1) continue;
                     int area = dfs(r, c, grid, id);
                     idToArea.put(id, area);
